@@ -28,4 +28,8 @@ public class Rental {
     public int getFrequentRenterPoints() {
         return _movie.getFrequentRenterPoints(getDaysRented());
     }
+
+    public String getStatementLine() {
+        return "\t" + getMovie().getTitle() + "\t" + String.valueOf(getCharge()) + "\n";
+    }
 }

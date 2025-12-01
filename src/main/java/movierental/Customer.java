@@ -31,14 +31,9 @@ public class Customer {
     private String statementBody() {
         String result = "";
         for (Rental each : _rentals) {
-            double thisAmount = each.getCharge();
-            result += individualRentalLine(each, thisAmount);
+            result += each.getStatementLine();
         }
         return result;
-    }
-
-    private String individualRentalLine(Rental each, double thisAmount) {
-        return "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(thisAmount) + "\n";
     }
 
     private String statementFooter() {
