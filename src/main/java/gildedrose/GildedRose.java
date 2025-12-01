@@ -5,10 +5,10 @@ public class GildedRose {
 
     public GildedRose(Item[] items) {
         this.items = items;
-        convertItemsInPlace();
+        replaceWithSpecializedItems();
     }
 
-    private void convertItemsInPlace() {
+    private void replaceWithSpecializedItems() {
         for (int i = 0; i < items.length; i++) {
             items[i] = Item.create(items[i].getName(), items[i].getSellIn(), items[i].getQuality());
         }
