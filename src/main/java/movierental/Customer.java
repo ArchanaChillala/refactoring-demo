@@ -5,19 +5,19 @@ import java.util.List;
 
 public class Customer {
 
-    private final String _name;
-    private List<Rental> _rentals = new ArrayList<>();
+    private final String name;
+    private List<Rental> rentals = new ArrayList<>();
 
     public Customer(String name) {
-        _name = name;
+        this.name = name;
     }
 
     public void addRental(Rental arg) {
-        _rentals.add(arg);
+        rentals.add(arg);
     }
 
     public String getName() {
-        return _name;
+        return name;
     }
 
     public String statement() {
@@ -29,7 +29,7 @@ public class Customer {
     }
 
     private String statementBody() {
-        return _rentals.stream()
+        return rentals.stream()
                 .map(Rental::getIndividualStatementLine)
                 .reduce("", String::concat);
     }
@@ -41,13 +41,13 @@ public class Customer {
     }
 
     private double getTotalAmount() {
-        return _rentals.stream()
+        return rentals.stream()
                 .mapToDouble(Rental::getCharge)
                 .sum();
     }
 
     private int getTotalFrequentRenterPoints() {
-        return _rentals.stream()
+        return rentals.stream()
                 .mapToInt(Rental::getFrequentRenterPoints)
                 .sum();
     }

@@ -6,16 +6,16 @@ public class Rental {
     private static final int DEFAULT_FREQUENT_RENTER_POINTS = 1;
     private static final int BONUS_FREQUENT_RENTER_POINTS = 2;
 
-    private Movie _movie;
-    private int _daysRented;
+    private Movie movie;
+    private int daysRented;
 
     public Rental(Movie movie, int daysRented) {
-        _movie = movie;
-        _daysRented = daysRented;
+        this.movie = movie;
+        this.daysRented = daysRented;
     }
 
     public double getCharge() {
-        return _movie.getCharge(_daysRented);
+        return movie.getCharge(daysRented);
     }
 
     public int getFrequentRenterPoints() {
@@ -30,14 +30,14 @@ public class Rental {
     }
 
     private boolean isNewReleaseMovie() {
-        return _movie instanceof NewReleaseMovie;
+        return movie instanceof NewReleaseMovie;
     }
 
     private boolean isExtendedRental() {
-        return _daysRented > BASE_THRESHOLD_DAYS;
+        return daysRented > BASE_THRESHOLD_DAYS;
     }
 
     public String getIndividualStatementLine() {
-        return String.format("\t%s\t%.1f\n", _movie.getTitle(), getCharge());
+        return String.format("\t%s\t%.1f\n", movie.getTitle(), getCharge());
     }
 }
