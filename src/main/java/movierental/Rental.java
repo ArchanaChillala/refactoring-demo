@@ -1,8 +1,5 @@
 package movierental;
 
-/**
- * The rental class represents a customer renting a movie.
- */
 public class Rental {
 
     private Movie _movie;
@@ -30,6 +27,6 @@ public class Rental {
     }
 
     public String getStatementLine() {
-        return "\t" + getMovie().getTitle() + "\t" + String.valueOf(getCharge()) + "\n";
+        return "\t" + getMovie().getTitle() + "\t" + getCharge() + "\n";
     }
 }

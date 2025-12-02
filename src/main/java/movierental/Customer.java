@@ -38,12 +38,10 @@ public class Customer {
 
     private String statementFooter() {
         String result = "";
-        result += "Amount owed is " + String.valueOf(getTotalAmount()) + "\n";
-        result += "You earned " + String.valueOf(getTotalFrequentRenterPoints()) + " frequent renter points";
+        result += "Amount owed is " + getTotalAmount() + "\n";
+        result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
         return result;
     }
-
-
 
     private double getTotalAmount() {
         double totalAmount = 0;
