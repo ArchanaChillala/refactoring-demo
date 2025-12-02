@@ -66,6 +66,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return this.name + ", " + this.sellIn + ", " + this.quality;
+        return String.format("%s, %d, %d", this.name, this.sellIn.getValue(), this.quality.getValue());
     }
 }

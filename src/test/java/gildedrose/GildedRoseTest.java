@@ -363,4 +363,140 @@ class GildedRoseTest {
         assertEquals(-2, items[0].getSellIn());
         assertEquals(50, items[0].getQuality());
     }
+
+    @Test
+    @DisplayName("Item.create uses factory pattern")
+    void itemCreateUsesFactoryPattern() {
+        Item agedBrie = Item.create("Aged Brie", 10, 20);
+        assertInstanceOf(AgedBrie.class, agedBrie);
+        
+        Item backstagePass = Item.create("Backstage passes to a TAFKAL80ETC concert", 15, 30);
+        assertInstanceOf(BackstagePass.class, backstagePass);
+        
+        Item sulfuras = Item.create("Sulfuras, Hand of Ragnaros", 0, 80);
+        assertInstanceOf(Sulfuras.class, sulfuras);
+        
+        Item normalItem = Item.create("Normal Item", 10, 20);
+        assertEquals(Item.class, normalItem.getClass());
+    }
+
+    @Test
+    @DisplayName("GildedRose constructor converts items to polymorphic types")
+    void gildedRoseConstructorConvertsItemsToPolymorphicTypes() {
+        Item[] items = new Item[] {
+            new Item("Aged Brie", 10, 20),
+            new Item("Backstage passes to a TAFKAL80ETC concert", 15, 30),
+            new Item("Normal Item", 5, 10)
+        };
+        
+        new GildedRose(items);
+        
+        assertInstanceOf(AgedBrie.class, items[0]);
+        assertInstanceOf(BackstagePass.class, items[1]);
+        assertEquals(Item.class, items[2].getClass());
+    }
+
+    @Test
+    @DisplayName("Empty item array handled correctly")
+    void emptyItemArrayHandledCorrectly() {
+        Item[] items = new Item[] {};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(0, items.length);
+    }
+
+    @Test
+    @DisplayName("Single item array works correctly")
+    void singleItemArrayWorksCorrectly() {
+        Item[] items = new Item[] { new Item("Normal Item", 5, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(4, items[0].getSellIn());
+        assertEquals(9, items[0].getQuality());
+    }
+
+    @Test
+    @DisplayName("Backstage passes at sellIn 1 increases by 3")
+    void backstagePassesAtSellIn1IncreasesBy3() {
+        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 1, 20) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(0, items[0].getSellIn());
+        assertEquals(23, items[0].getQuality());
+    }
+
+    @Test
+    @DisplayName("Backstage passes at sellIn 6 increases by 2")
+    void backstagePassesAtSellIn6IncreasesBy2() {
+        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 6, 20) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(5, items[0].getSellIn());
+        assertEquals(22, items[0].getQuality());
+    }
+
+    @Test
+    @DisplayName("Backstage passes at sellIn 11 increases by 1")
+    void backstagePassesAtSellIn11IncreasesBy1() {
+        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 11, 20) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(10, items[0].getSellIn());
+        assertEquals(21, items[0].getQuality());
+    }
+
+    @Test
+    @DisplayName("Normal item at sellIn 1 degrades by 1")
+    void normalItemAtSellIn1DegradesBy1() {
+        Item[] items = new Item[] { new Item("Normal Item", 1, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(0, items[0].getSellIn());
+        assertEquals(9, items[0].getQuality());
+    }
+
+    @Test
+    @DisplayName("Aged Brie at sellIn 1 increases by 1")
+    void agedBrieAtSellIn1IncreasesBy1() {
+        Item[] items = new Item[] { new Item("Aged Brie", 1, 20) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(0, items[0].getSellIn());
+        assertEquals(21, items[0].getQuality());
+    }
+
+    @Test
+    @DisplayName("Item toString returns correct format")
+    void itemToStringReturnsCorrectFormat() {
+        Item[] items = new Item[] { new Item("Normal Item", 10, 20) };
+        GildedRose app = new GildedRose(items);
+        String result = items[0].toString();
+        assertEquals("Normal Item, 10, 20", result);
+    }
+
+    @Test
+    @DisplayName("Backstage passes with quality 47 at sellIn 5 caps at 50")
+    void backstagePassesWithQuality47AtSellIn5CapsAt50() {
+        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 5, 47) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(4, items[0].getSellIn());
+        assertEquals(50, items[0].getQuality());
+    }
+
+    @Test
+    @DisplayName("Multiple identical items update independently")
+    void multipleIdenticalItemsUpdateIndependently() {
+        Item[] items = new Item[] {
+            new Item("Normal Item", 5, 10),
+            new Item("Normal Item", 5, 10)
+        };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        
+        assertEquals(4, items[0].getSellIn());
+        assertEquals(9, items[0].getQuality());
+        assertEquals(4, items[1].getSellIn());
+        assertEquals(9, items[1].getQuality());
+    }
 }
