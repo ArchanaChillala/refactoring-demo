@@ -10,8 +10,12 @@ public class GildedRose {
 
     private void replaceWithSpecializedItems() {
         for (int i = 0; i < items.length; i++) {
-            items[i] = Item.create(items[i].getName(), items[i].getSellIn(), items[i].getQuality());
+            items[i] = createSpecializedItem(items[i]);
         }
+    }
+
+    private Item createSpecializedItem(Item item) {
+        return Item.create(item.getName(), item.getSellIn(), item.getQuality());
     }
 
     public void updateQuality() {
