@@ -3,18 +3,33 @@ package movierental;
 public class RegularMovie extends Movie {
     
     private static final double BASE_CHARGE = 2.0;
-    private static final int FREE_DAYS = 2;
-    private static final double ADDITIONAL_CHARGE_PER_DAY = 1.5;
-    
+    private static final double EXTRA_CHARGE_PER_DAY = 1.5;
+    private static final int BASE_PERIOD = 2;
+
     public RegularMovie(String title) {
         super(title);
     }
     
     @Override
     public double getCharge(int daysRented) {
-        double amount = BASE_CHARGE;
-        if (daysRented > FREE_DAYS)
-            amount += (daysRented - FREE_DAYS) * ADDITIONAL_CHARGE_PER_DAY;
-        return amount;
+        if (exceedsBasePeriod(daysRented))
+            return calculateExtendedRentalCharge(daysRented);
+        return BASE_CHARGE;
+    }
+
+    private static double calculateExtendedRentalCharge(int daysRented) {
+        return BASE_CHARGE + extraCharge(daysRented);
+    }
+
+    private static double extraCharge(int daysRented) {
+        return countExtraDays(daysRented) * EXTRA_CHARGE_PER_DAY;
+    }
+
+    private static int countExtraDays(int daysRented) {
+        return daysRented - BASE_PERIOD;
+    }
+
+    private static boolean exceedsBasePeriod(int daysRented) {
+        return daysRented > BASE_PERIOD;
     }
 }

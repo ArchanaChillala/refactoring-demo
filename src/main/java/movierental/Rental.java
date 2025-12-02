@@ -37,7 +37,7 @@ public class Rental {
         return _daysRented > BASE_THRESHOLD_DAYS;
     }
 
-    public String getStatementLine() {
+    public String getIndividualStatementLine() {
         return String.format("\t%s\t%.1f\n", _movie.getTitle(), getCharge());
     }
 }

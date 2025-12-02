@@ -30,7 +30,7 @@ public class Customer {
 
     private String statementBody() {
         return _rentals.stream()
-                .map(Rental::getStatementLine)
+                .map(Rental::getIndividualStatementLine)
                 .reduce("", String::concat);
     }
 
