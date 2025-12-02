@@ -27,6 +27,6 @@ public class Rental {
     }
 
     public String getStatementLine() {
-        return "\t" + getMovie().getTitle() + "\t" + getCharge() + "\n";
+        return String.format("\t%s\t%.1f\n", getMovie().getTitle(), getCharge());
     }
 }

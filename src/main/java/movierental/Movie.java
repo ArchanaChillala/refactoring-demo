@@ -2,7 +2,7 @@ package movierental;
 
 public abstract class Movie {
 
-    private String _title;
+    private final String _title;
 
     public Movie(String title) {
         _title = title;
