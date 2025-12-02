@@ -6,7 +6,7 @@ import java.util.List;
 public class Customer {
 
     private final String _name;
-    private List<Rental> _rentals = new ArrayList<Rental>();
+    private List<Rental> _rentals = new ArrayList<>();
 
     public Customer(String name) {
         _name = name;
@@ -25,37 +25,30 @@ public class Customer {
     }
 
     private String statementHeader() {
-        return "Rental Record for " + getName() + "\n";
+        return String.format("Rental Record for %s\n", getName());
     }
 
     private String statementBody() {
-        String result = "";
-        for (Rental each : _rentals) {
-            result += each.getStatementLine();
-        }
-        return result;
+        return _rentals.stream()
+                .map(Rental::getStatementLine)
+                .reduce("", String::concat);
     }
 
     private String statementFooter() {
-        String result = "";
-        result += "Amount owed is " + getTotalAmount() + "\n";
-        result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
-        return result;
+        return String.format("Amount owed is %s\n" +
+                        "You earned %d frequent renter points",
+                getTotalAmount(), getTotalFrequentRenterPoints());
     }
 
     private double getTotalAmount() {
-        double totalAmount = 0;
-        for (Rental each : _rentals) {
-            totalAmount += each.getCharge();
-        }
-        return totalAmount;
+        return _rentals.stream()
+                .mapToDouble(Rental::getCharge)
+                .sum();
     }
 
     private int getTotalFrequentRenterPoints() {
-        int totalPoints = 0;
-        for (Rental each : _rentals) {
-            totalPoints += each.getFrequentRenterPoints();
-        }
-        return totalPoints;
+        return _rentals.stream()
+                .mapToInt(Rental::getFrequentRenterPoints)
+                .sum();
     }
 }
