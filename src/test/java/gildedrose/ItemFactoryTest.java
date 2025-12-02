@@ -41,9 +41,9 @@ class ItemFactoryTest {
     void factoryCreatesNormalItemForUnknownName() {
         Item item = ItemFactory.createItem("Normal Item", 10, 20);
         assertEquals(Item.class, item.getClass());
-        assertNotInstanceOf(AgedBrie.class, item);
-        assertNotInstanceOf(BackstagePass.class, item);
-        assertNotInstanceOf(Sulfuras.class, item);
+        assertFalse(item instanceof AgedBrie);
+        assertFalse(item instanceof BackstagePass);
+        assertFalse(item instanceof Sulfuras);
         assertEquals("Normal Item", item.getName());
         assertEquals(10, item.getSellIn());
         assertEquals(20, item.getQuality());
@@ -98,7 +98,7 @@ class ItemFactoryTest {
     void factoryCaseSensitiveForItemNames() {
         Item item = ItemFactory.createItem("aged brie", 10, 20);
         assertEquals(Item.class, item.getClass());
-        assertNotInstanceOf(AgedBrie.class, item);
+        assertFalse(item instanceof AgedBrie);
     }
 
     @Test
