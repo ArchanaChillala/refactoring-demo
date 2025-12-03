@@ -5,6 +5,7 @@ public class Rental {
     private static final int BASE_THRESHOLD_DAYS = 1;
     private static final int DEFAULT_FREQUENT_RENTER_POINTS = 1;
     private static final int BONUS_FREQUENT_RENTER_POINTS = 2;
+    private static final String HTML_TABLE_ROW_FORMAT = "  <tr><td>%s</td><td>%.1f</td></tr>";
 
     private final Movie movie;
     private final int daysRented;
@@ -12,10 +13,6 @@ public class Rental {
     public Rental(Movie movie, int daysRented) {
         this.movie = movie;
         this.daysRented = daysRented;
-    }
-
-    public String getMovieTitle() {
-        return movie.getTitle();
     }
 
     public double getCharge() {
@@ -46,6 +43,6 @@ public class Rental {
     }
 
     public String getHtmlTableRow() {
-        return String.format("  <tr><td>%s</td><td>%.1f</td></tr>", getMovieTitle(), getCharge());
+        return String.format(HTML_TABLE_ROW_FORMAT, movie.getTitle(), getCharge());
     }
 }

@@ -6,6 +6,18 @@ import java.util.stream.Collectors;
 
 public class Customer {
 
+    private static final String RENTAL_RECORD_TEXT = "Rental Record for";
+    private static final String AMOUNT_OWED_TEXT = "Amount owed is";
+    private static final String YOU_EARNED_TEXT = "You earned";
+    private static final String FREQUENT_RENTER_POINTS_TEXT = "frequent renter points";
+    
+    private static final String TEXT_HEADER_FORMAT = RENTAL_RECORD_TEXT + " %s\n";
+    private static final String TEXT_FOOTER_FORMAT = AMOUNT_OWED_TEXT + " %s\n" + YOU_EARNED_TEXT + " %d " + FREQUENT_RENTER_POINTS_TEXT;
+    
+    private static final String HTML_HEADER_FORMAT = "<h1>" + RENTAL_RECORD_TEXT + " <em>%s</em></h1>\n";
+    private static final String HTML_TABLE_FORMAT = "<table>\n%s\n</table>\n";
+    private static final String HTML_FOOTER_FORMAT = "<p>" + AMOUNT_OWED_TEXT + " <em>%.1f</em></p>\n<p>" + YOU_EARNED_TEXT + " <em>%d</em> " + FREQUENT_RENTER_POINTS_TEXT + "</p>";
+
     private final String name;
     private final List<Rental> rentals = new ArrayList<>();
 
@@ -30,7 +42,7 @@ public class Customer {
     }
 
     private String statementHeader() {
-        return String.format("Rental Record for %s\n", getName());
+        return String.format(TEXT_HEADER_FORMAT, getName());
     }
 
     private String statementBody() {
@@ -40,13 +52,11 @@ public class Customer {
     }
 
     private String statementFooter() {
-        return String.format("Amount owed is %s\n" +
-                        "You earned %d frequent renter points",
-                getTotalAmount(), getTotalFrequentRenterPoints());
+        return String.format(TEXT_FOOTER_FORMAT, getTotalAmount(), getTotalFrequentRenterPoints());
     }
 
     private String htmlStatementHeader() {
-        return String.format("<h1>Rental Record for <em>%s</em></h1>\n", getName());
+        return String.format(HTML_HEADER_FORMAT, getName());
     }
 
     private String htmlStatementBody() {
@@ -67,13 +77,11 @@ public class Customer {
     }
 
     private String wrapInHtmlTable(String tableRows) {
-        return String.format("<table>\n%s\n</table>\n", tableRows);
+        return String.format(HTML_TABLE_FORMAT, tableRows);
     }
 
     private String htmlStatementFooter() {
-        return String.format("<p>Amount owed is <em>%.1f</em></p>\n" +
-                        "<p>You earned <em>%d</em> frequent renter points</p>",
-                getTotalAmount(), getTotalFrequentRenterPoints());
+        return String.format(HTML_FOOTER_FORMAT, getTotalAmount(), getTotalFrequentRenterPoints());
     }
 
     private double getTotalAmount() {
