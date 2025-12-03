@@ -378,4 +378,68 @@ public class CustomerTest {
         
         assertEquals(expected2, customer2.statement());
     }
+
+    @Test
+    @DisplayName("HTML statement with no rentals should show zero amount and zero points")
+    public void testHtmlStatementWithNoRentals() {
+        Customer customer = new Customer("Alice");
+        
+        String expected = "<h1>Rental Record for <em>Alice</em></h1>\n" +
+                "<p>Amount owed is <em>0.0</em></p>\n" +
+                "<p>You earned <em>0</em> frequent renter points</p>";
+        
+        assertEquals(expected, customer.htmlStatement());
+    }
+
+    @Test
+    @DisplayName("HTML statement with single rental should format correctly")
+    public void testHtmlStatementWithSingleRental() {
+        Customer customer = new Customer("martin");
+        customer.addRental(new Rental(new RegularMovie("Ran"), 3));
+        
+        String expected = "<h1>Rental Record for <em>martin</em></h1>\n" +
+                "<table>\n" +
+                "  <tr><td>Ran</td><td>3.5</td></tr>\n" +
+                "</table>\n" +
+                "<p>Amount owed is <em>3.5</em></p>\n" +
+                "<p>You earned <em>1</em> frequent renter points</p>";
+        
+        assertEquals(expected, customer.htmlStatement());
+    }
+
+    @Test
+    @DisplayName("HTML statement with multiple rentals should format correctly")
+    public void testHtmlStatementWithMultipleRentals() {
+        Customer customer = new Customer("martin");
+        customer.addRental(new Rental(new RegularMovie("Ran"), 3));
+        customer.addRental(new Rental(new NewReleaseMovie("Trois Couleurs: Bleu"), 2));
+        
+        String expected = "<h1>Rental Record for <em>martin</em></h1>\n" +
+                "<table>\n" +
+                "  <tr><td>Ran</td><td>3.5</td></tr>\n" +
+                "  <tr><td>Trois Couleurs: Bleu</td><td>6.0</td></tr>\n" +
+                "</table>\n" +
+                "<p>Amount owed is <em>9.5</em></p>\n" +
+                "<p>You earned <em>3</em> frequent renter points</p>";
+        
+        assertEquals(expected, customer.htmlStatement());
+    }
+
+    @Test
+    @DisplayName("HTML statement should match the exact format from requirements")
+    public void testHtmlStatementExactFormat() {
+        Customer customer = new Customer("martin");
+        customer.addRental(new Rental(new RegularMovie("Ran"), 3));
+        customer.addRental(new Rental(new RegularMovie("Trois Couleurs: Bleu"), 1));
+        
+        String expected = "<h1>Rental Record for <em>martin</em></h1>\n" +
+                "<table>\n" +
+                "  <tr><td>Ran</td><td>3.5</td></tr>\n" +
+                "  <tr><td>Trois Couleurs: Bleu</td><td>2.0</td></tr>\n" +
+                "</table>\n" +
+                "<p>Amount owed is <em>5.5</em></p>\n" +
+                "<p>You earned <em>2</em> frequent renter points</p>";
+        
+        assertEquals(expected, customer.htmlStatement());
+    }
 }

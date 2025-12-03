@@ -14,6 +14,10 @@ public class Rental {
         this.daysRented = daysRented;
     }
 
+    public String getMovieTitle() {
+        return movie.getTitle();
+    }
+
     public double getCharge() {
         return movie.getCharge(daysRented);
     }
@@ -39,5 +43,9 @@ public class Rental {
 
     public String getIndividualStatementLine() {
         return String.format("\t%s\t%.1f\n", movie.getTitle(), getCharge());
+    }
+
+    public String getHtmlTableRow() {
+        return String.format("  <tr><td>%s</td><td>%.1f</td></tr>", getMovieTitle(), getCharge());
     }
 }
